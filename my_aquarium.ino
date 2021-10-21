@@ -1,9 +1,4 @@
 
-// Import required libraries
-
- #include <FS.h>   //?
- #include <Wire.h>  //?
-
 
 // Import required libraries
 #include <Arduino.h>
@@ -11,11 +6,13 @@
 #include <Hash.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <Adafruit_Sensor.h>
-#include <DHT.h>
+#include <FS.h>   // File Wrapper. May not be in use
+#include <Wire.h>  // I2C support not in use here
 
 #include <DallasTemperature.h>
 #include <OneWire.h>
+#include <Adafruit_Sensor.h>   // not in use here
+#include <DHT.h>               // not in use here
 
 // ph sensor variables:
 const int analogInPin = A0; 
@@ -30,6 +27,8 @@ int buf[10],temp;
 OneWire oneWire(ONE_WIRE_BUS); 
 DallasTemperature sensors(&oneWire);            // Pass the oneWire reference to Dallas Temperature.
 
+
+// ------ Network Stuff --------
 
 // Replace with your network credentials
 
@@ -49,7 +48,7 @@ int pirStat = 0;                   // PIR status
 int c = 0;
 
 
-// Stores LED state
+// Store states
 String relayState;
 String relay2State;
 String fishFeederState;
@@ -153,8 +152,6 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 // server functions:
 
-
-
 var chartH = new Highcharts.Chart({
   chart:{ renderTo:'chart-humidity' },
   title: { text: 'PH' },
@@ -254,8 +251,7 @@ setInterval(function ( ) {
 </SCRIPT>)rawliteral";    // end webpage
 
 
-
-// Replaces placeholders with values
+// Replaces Webpage placeholders with values
 
   String processor(const String& var){
   Serial.println(var);
